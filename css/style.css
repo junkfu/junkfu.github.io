@@ -141,7 +141,20 @@ p:last-child { margin-bottom: 0; }
 }
 .title-user { color: var(--fg); }
 
-.actions { flex: 0 0 auto; }
+.actions { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
+
+.icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--dim);
+}
+.icon-link:hover { color: var(--fg-strong); background: var(--flash); text-decoration: none; }
+.icon-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.icon-link svg { display: block; }
 
 .lang-toggle {
   font: inherit;
@@ -215,20 +228,6 @@ p:last-child { margin-bottom: 0; }
 .hl { color: var(--yellow); }
 .kw { color: var(--purple); }
 
-/* ---------- whoami ---------- */
-.whoami-line {
-  margin: 0;
-  font-size: 1.05em;
-  font-weight: 700;
-  color: var(--fg-strong);
-}
-.whoami-line .sub {
-  display: block;
-  font-weight: 400;
-  color: var(--dim);
-  font-size: 0.93em;
-}
-
 /* ---------- neofetch ---------- */
 .neofetch {
   display: flex;
@@ -263,7 +262,14 @@ p:last-child { margin-bottom: 0; }
 .nf-row { display: flex; gap: 0; flex-wrap: wrap; }
 .nf-k { color: var(--yellow); font-weight: 700; flex: 0 0 auto; }
 .nf-k::after { content: ":"; color: var(--fg); margin-right: 8px; }
-.nf-v { color: var(--fg); flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.nf-v { color: var(--fg); flex: 1 1 0; min-width: 14ch; overflow-wrap: anywhere; }
+.nf-name {
+  margin: 0;
+  font-size: 1.05em;
+  font-weight: 700;
+  line-height: inherit;
+  color: var(--fg-strong);
+}
 .nf-tags { margin-top: 8px; }
 .palette { display: flex; gap: 0; margin-top: 12px; }
 .palette span {

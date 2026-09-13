@@ -72,32 +72,33 @@
   }
 
   function renderWhoami(d) {
-    return block('whoami', S.cmds.whoami,
-      `<h1 class="whoami-line">${esc(d.whoami.line)}<span class="sub">${esc(d.whoami.sub)}</span></h1>`);
-  }
-
-  function renderNeofetch(d) {
-    const rows = d.neofetch.rows.map(([k, v]) =>
+    const rows = d.whoami.rows.map(([k, v]) =>
       `<div class="nf-row"><span class="nf-k">${esc(k)}</span><span class="nf-v">${esc(v)}</span></div>`).join('');
     const inner = `<div class="neofetch">
       <figure class="nf-avatar">
-        <img src="${esc(S.avatar)}" alt="${esc(d.neofetch.rows[0][1])}" width="360" height="360" loading="eager" decoding="async">
+        <img src="${esc(S.avatar)}" alt="${esc(d.whoami.name)}" width="360" height="360" loading="eager" decoding="async">
         <figcaption>$ imgcat avatar.jpg</figcaption>
       </figure>
       <div class="nf-info">
         <div class="nf-head">${esc(S.handle.split('@')[0])}<span class="at">@</span>${esc(S.handle.split('@')[1])}</div>
         <div class="nf-rule">${'-'.repeat(S.handle.length)}</div>
+        <div class="nf-row"><span class="nf-k">Name</span><h1 class="nf-v nf-name">${esc(d.whoami.name)}</h1></div>
         ${rows}
-        <div class="nf-tags">${tags(d.neofetch.tags)}</div>
+        <div class="nf-tags">${tags(d.whoami.tags)}</div>
         <div class="palette" aria-hidden="true"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span><span class="c5"></span><span class="c6"></span><span class="c7"></span><span class="c8"></span></div>
       </div>
     </div>`;
-    return block('neofetch', S.cmds.neofetch, inner);
+    return block('whoami', S.cmds.whoami, inner);
   }
 
   function renderAbout(d) {
-    return block('about', S.cmds.about,
-      d.about.paragraphs.map((p) => `<p>${esc(p)}</p>`).join(''), 'About');
+    const items = d.about.highlights.map((h) => `<li>${esc(h)}</li>`).join('');
+    return block('about', S.cmds.about, `
+      <p>${esc(d.about.summary)}</p>
+      <div class="job-group">
+        <div class="group-title">${esc(d.about.highlightsHeading)}</div>
+        <ul class="bullets">${items}</ul>
+      </div>`, 'About');
   }
 
   function renderExperience(d) {
@@ -174,11 +175,7 @@
     const colon = state.lang === 'zh' ? '：' : ': ';
     const items = d.whyme.bullets.map((b) =>
       `<li><b>${esc(b.title)}</b>${colon}${esc(b.text)}</li>`).join('');
-    return block('whyme', S.cmds.whyme, `
-      <div class="whyme">
-        <ul class="bullets">${items}</ul>
-        <p class="value"><b>${esc(d.whyme.value.title)}</b>${colon}${esc(d.whyme.value.text)}</p>
-      </div>`, 'Why me');
+    return block('whyme', S.cmds.whyme, `<div class="whyme"><ul class="bullets">${items}</ul></div>`, 'Beyond work');
   }
 
   function renderContact(d) {
@@ -195,7 +192,9 @@
       line(k.github, link(S.github, S.github.replace(/^https?:\/\//, ''))) +
       line(k.linkedin, link(encodeURI(S.linkedin), linkedinDisplay)) +
       line(k.openTo, str(c.openTo)) +
-      line(k.location, str(c.location), true);
+      line(k.location, str(c.location)) +
+      line(k.preferredLocations, str(c.preferredLocations)) +
+      line(k.availability, str(c.availability), true);
     return block('contact', S.cmds.contact,
       `<pre class="json"><span class="p">{</span>\n${body}<span class="p">}</span></pre>`, 'Contact');
   }
@@ -204,7 +203,6 @@
     const d = L();
     return [
       renderWhoami(d),
-      renderNeofetch(d),
       renderAbout(d),
       renderExperience(d),
       renderProjects(d),
@@ -226,6 +224,8 @@
     const input = $('#cli-input');
     input.placeholder = ui.placeholder;
     input.setAttribute('aria-label', ui.inputLabel);
+    $('#link-github').href = S.github;
+    $('#link-linkedin').href = encodeURI(S.linkedin);
     $('#foot-text').textContent = ui.footer;
     $('#foot-source').textContent = ui.source;
     $('#foot-year').textContent = String(new Date().getFullYear());
@@ -386,7 +386,7 @@
     education() { open('education'); },
     contact() { open('contact'); },
     whoami() { open('whoami'); },
-    neofetch() { open('neofetch'); },
+    neofetch() { open('whoami'); },
     top() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       logOut(L().ui.top, 'ok');
