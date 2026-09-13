@@ -4,33 +4,20 @@
    ============================================================ */
 window.RESUME = {
   shared: {
-    handle: 'allen@junkfu',
-    path: '~/resume',
     email: 'junkfood1106@gmail.com',
     github: 'https://github.com/junkfu',
     linkedin: 'https://www.linkedin.com/in/復-張-43a365205',
     avatar: 'assets/avatar.jpg',
     siteUrl: 'https://junkfu.github.io/',
-    // 各區塊在畫面上顯示的「指令」
-    cmds: {
-      whoami: 'whoami',
-      about: 'cat about.md',
-      experience: 'git log --graph career/',
-      projects: 'cat projects.md',
-      skills: 'cat skills.yaml',
-      education: 'cat education.md',
-      whyme: 'cat beyond-work.md',
-      contact: 'cat contact.json'
-    },
-    // ls 會列出的檔案 → 對應區塊
+    // 指令列 ls / cat 使用的檔名 → 對應區塊
     files: {
       'about.md': 'about',
       'experience.md': 'experience',
       'projects.md': 'projects',
-      'skills.yaml': 'skills',
+      'skills.md': 'skills',
       'education.md': 'education',
       'beyond-work.md': 'whyme',
-      'contact.json': 'contact'
+      'contact.md': 'contact'
     }
   },
 
@@ -40,17 +27,28 @@ window.RESUME = {
       htmlLang: 'zh-Hant',
       langButton: 'EN',
       langButtonTitle: 'Switch to English',
-      placeholder: "輸入 help 查看可用指令…",
+      placeholder: '輸入 help 查看可用指令…',
       inputLabel: '終端機指令輸入',
-      footer: '以純 HTML / CSS / JS 打造 · 部署於 GitHub Pages',
       source: '原始碼',
+      sections: {
+        about: '關於我',
+        experience: '工作經歷',
+        projects: '專案成就',
+        skills: '技能',
+        education: '學歷與認證',
+        whyme: '工作之外',
+        contact: '聯絡方式'
+      },
+      currentBadge: '現職',
+      roleLabel: '角色',
+      linksLabel: '相關網站',
       helpIntro: '可用指令：',
       help: [
         ['help', '顯示這份說明'],
         ['about', '關於我'],
         ['exp', '工作經歷（也可用 experience）'],
         ['projects', '專案成就'],
-        ['skills', '技能清單'],
+        ['skills', '技能'],
         ['edu', '學歷與認證'],
         ['contact', '聯絡方式'],
         ['ls / cat <file>', '列出或開啟檔案'],
@@ -63,29 +61,26 @@ window.RESUME = {
       notFound: 'zsh: command not found: {cmd}（輸入 help 查看指令）',
       opening: '→ 開啟 {file}',
       noFile: 'cat: {file}: No such file or directory',
-      catUsage: 'cat: 請指定檔案，例如 cat skills.yaml',
+      catUsage: 'cat: 請指定檔案，例如 cat skills.md',
       langSet: '語言已切換為繁體中文',
       themeSet: '配色已切換為 {theme}',
       themeUnknown: '沒有這個配色：{theme}。可用：dark, light, dracula',
       sudo: 'allen 不在 sudoers 名單中。此事件將被回報 🙂',
       exit: '感謝造訪！這是靜態網頁，沒有出口 👋',
-      cleared: '',
       top: '→ 回到最上方',
-      noHistory: '（尚無歷史指令）',
-      noscript: '此頁面需要 JavaScript。聯絡方式：junkfood1106@gmail.com · github.com/junkfu'
+      noHistory: '（尚無歷史指令）'
     },
 
     whoami: {
       name: '張復 Allen Chang',
+      title: '資訊部經理 @ 愛生育生物科技 · 帶領 13+ 人軟硬體團隊',
       rows: [
-        ['Role', '資訊部經理 @ 愛生育生物科技 · 帶領 13+ 人軟硬體團隊'],
-        ['Open to', '後端工程師 / Backend Engineer'],
-        ['Location', '新竹, Taiwan'],
-        ['Experience', '9+ 年：LED 硬體研發 → 軟體開發 → 資訊部主管'],
-        ['Education', '國立中興大學 電機工程學系'],
-        ['Stack', 'PHP / Laravel · Node.js · Python · React · MySQL · AWS · Docker · Claude Code']
-      ],
-      tags: ['#AWS', '#Laravel', '#DevOps', '#醫療資訊系統', '#軟硬整合', '#AI輔助開發']
+        ['求職目標', '後端工程師 / Backend Engineer'],
+        ['地點', '新竹, Taiwan'],
+        ['年資', '9+ 年：LED 硬體研發 → 軟體開發 → 資訊部主管'],
+        ['學歷', '國立中興大學 電機工程學系'],
+        ['技術', 'PHP / Laravel · Node.js · Python · React · MySQL · AWS · Docker · Claude Code']
+      ]
     },
 
     about: {
@@ -100,7 +95,6 @@ window.RESUME = {
     },
 
     experience: {
-      current: 'HEAD -> now',
       items: [
         {
           period: '2025/1 ~ 現在',
@@ -132,8 +126,7 @@ window.RESUME = {
                 '導入並管理 Claude Teams，建立團隊 AI 使用規範與用量分析'
               ]
             }
-          ],
-          tags: ['#AWS', '#Laravel', '#React', '#Docker', '#系統整合']
+          ]
         },
         {
           period: '2017/10 ~ 2024/12',
@@ -152,8 +145,7 @@ window.RESUME = {
                 '導入 Laravel 框架統一程式碼風格，提升可維護性'
               ]
             }
-          ],
-          tags: ['#PHP', '#Laravel', '#MySQL', '#Node.js', '#AWS']
+          ]
         },
         {
           period: '2015/9 ~ 2017/2',
@@ -170,8 +162,7 @@ window.RESUME = {
                 '網頁開發（HTML / CSS / JS）與資料庫（MySQL / Redis / MongoDB）'
               ]
             }
-          ],
-          tags: ['#Java', '#MySQL', '#JavaScript']
+          ]
         },
         {
           period: '2012/9 ~ 2015/3',
@@ -187,8 +178,7 @@ window.RESUME = {
                 '客戶技術支援與失效分析，出差韓國、中國'
               ]
             }
-          ],
-          tags: ['#LED', '#AutoCAD', '#SolidWorks']
+          ]
         }
       ]
     },
@@ -211,7 +201,6 @@ window.RESUME = {
               ]
             }
           ],
-          tags: ['#Laravel', '#RESTful', '#MySQL', '#Redis', '#HL7/FHIR'],
           links: []
         },
         {
@@ -220,30 +209,28 @@ window.RESUME = {
           role: '主導 / 架構 / 團隊帶領',
           summary: '兩套核心系統導入院所實際運作。以 AWS ECS Fargate 部署並 Auto Scaling，介接光學顯微鏡、標籤機、自動備血管機等設備，院所流程全面無紙化，人力需求 -30%。',
           sections: [],
-          tags: ['#ECS Fargate', '#IoT', '#無紙化'],
           links: [
             { label: 'e-stork.com.tw', url: 'https://www.e-stork.com.tw/' },
             { label: 'icryobank.com', url: 'https://icryobank.com/' },
             { label: 'jp.icryobank.com', url: 'https://jp.icryobank.com/' }
           ]
         }
-      ],
-      linksLabel: '相關網站'
+      ]
     },
 
     skills: {
       groups: [
-        ['languages', ['PHP', 'Node.js', 'Python', 'Java']],
-        ['frameworks', ['Laravel', 'React']],
-        ['web', ['HTML', 'CSS', 'JavaScript']],
-        ['database', ['MySQL', 'MariaDB', 'MSSQL', 'Redis', 'MongoDB']],
-        ['aws', ['EC2', 'ECS Fargate', 'ECR', 'RDS', 'Route 53', 'CloudFront', 'WAF', 'Lambda', 'VPC']],
-        ['devops', ['Git', 'Jenkins', 'Docker', 'CI/CD', 'Linux', 'Zabbix', 'PRTG']],
-        ['ai', ['Claude Code', 'Codex', 'Claude Teams 管理']],
-        ['saas', ['Google Workspace', 'ClickUp', 'LINE Bot', 'Google Apps Script']],
-        ['hardware', ['LED 製程', 'IoT 設備介接', 'AutoCAD', 'SolidWorks']]
+        ['程式語言', ['PHP', 'Node.js', 'Python', 'Java']],
+        ['框架', ['Laravel', 'React']],
+        ['網頁', ['HTML', 'CSS', 'JavaScript']],
+        ['資料庫', ['MySQL', 'MariaDB', 'MSSQL', 'Redis', 'MongoDB']],
+        ['AWS', ['EC2', 'ECS Fargate', 'ECR', 'RDS', 'Route 53', 'CloudFront', 'WAF', 'Lambda', 'VPC']],
+        ['DevOps', ['Git', 'Jenkins', 'Docker', 'CI/CD', 'Linux', 'Zabbix', 'PRTG']],
+        ['AI 工具', ['Claude Code', 'Codex', 'Claude Teams 管理']],
+        ['SaaS 與自動化', ['Google Workspace', 'ClickUp', 'LINE Bot', 'Google Apps Script']],
+        ['硬體', ['LED 製程', 'IoT 設備介接', 'AutoCAD', 'SolidWorks']]
       ],
-      spokenKey: 'spoken',
+      spokenLabel: '語言能力',
       spoken: [
         ['中文', '精通'],
         ['English', '中等'],
@@ -273,15 +260,11 @@ window.RESUME = {
     },
 
     contact: {
-      name: '張復 Allen Chang',
-      openTo: '後端工程師 / Backend Engineer',
-      location: '新竹, Taiwan',
-      preferredLocations: '新竹 / 台中 / 桃園 / 台北 / 新北',
-      availability: '錄取後一個月可上班',
-      keys: {
-        name: 'name', email: 'email', github: 'github', linkedin: 'linkedin',
-        openTo: 'open_to', location: 'location', preferredLocations: 'preferred_locations', availability: 'availability'
-      }
+      linkLabels: { email: 'Email', github: 'GitHub', linkedin: 'LinkedIn' },
+      rows: [
+        ['可配合地點', '新竹 / 台中 / 桃園 / 台北 / 新北'],
+        ['可上班日', '錄取後一個月']
+      ]
     }
   },
 
@@ -293,15 +276,26 @@ window.RESUME = {
       langButtonTitle: '切換為繁體中文',
       placeholder: "type 'help' for available commands…",
       inputLabel: 'Terminal command input',
-      footer: 'Built with plain HTML / CSS / JS · Hosted on GitHub Pages',
       source: 'source',
+      sections: {
+        about: 'About',
+        experience: 'Experience',
+        projects: 'Projects',
+        skills: 'Skills',
+        education: 'Education',
+        whyme: 'Beyond work',
+        contact: 'Contact'
+      },
+      currentBadge: 'current',
+      roleLabel: 'Role',
+      linksLabel: 'Related sites',
       helpIntro: 'Available commands:',
       help: [
         ['help', 'show this help'],
         ['about', 'about me'],
         ['exp', 'work experience (alias: experience)'],
         ['projects', 'project highlights'],
-        ['skills', 'skill list'],
+        ['skills', 'skills'],
         ['edu', 'education & certifications'],
         ['contact', 'contact info'],
         ['ls / cat <file>', 'list or open files'],
@@ -314,29 +308,26 @@ window.RESUME = {
       notFound: "zsh: command not found: {cmd} (type 'help')",
       opening: '→ opening {file}',
       noFile: 'cat: {file}: No such file or directory',
-      catUsage: 'cat: missing file operand, e.g. cat skills.yaml',
+      catUsage: 'cat: missing file operand, e.g. cat skills.md',
       langSet: 'Language switched to English',
       themeSet: 'Theme switched to {theme}',
       themeUnknown: 'Unknown theme: {theme}. Available: dark, light, dracula',
       sudo: 'allen is not in the sudoers file. This incident will be reported 🙂',
       exit: "Thanks for visiting! It's a static page, there is no exit 👋",
-      cleared: '',
       top: '→ back to top',
-      noHistory: '(no history yet)',
-      noscript: 'This page needs JavaScript. Contact: junkfood1106@gmail.com · github.com/junkfu'
+      noHistory: '(no history yet)'
     },
 
     whoami: {
       name: 'Allen Chang (張復)',
+      title: 'IT Manager @ BIOLOVE Biotechnology · leads a 13+ person software & hardware team',
       rows: [
-        ['Role', 'IT Manager @ BIOLOVE Biotechnology · leads a 13+ person software & hardware team'],
         ['Open to', 'Backend Engineer'],
         ['Location', 'Hsinchu, Taiwan'],
         ['Experience', '9+ years: LED hardware R&D → software development → head of IT'],
         ['Education', 'B.S. Electrical Engineering, National Chung Hsing University'],
         ['Stack', 'PHP / Laravel · Node.js · Python · React · MySQL · AWS · Docker · Claude Code']
-      ],
-      tags: ['#AWS', '#Laravel', '#DevOps', '#HealthcareIT', '#HardwareSoftware', '#AIAssistedDev']
+      ]
     },
 
     about: {
@@ -351,7 +342,6 @@ window.RESUME = {
     },
 
     experience: {
-      current: 'HEAD -> now',
       items: [
         {
           period: '2025/1 ~ present',
@@ -383,8 +373,7 @@ window.RESUME = {
                 'Rolled out and administer Claude Teams with team AI usage guidelines and analytics'
               ]
             }
-          ],
-          tags: ['#AWS', '#Laravel', '#React', '#Docker', '#SystemIntegration']
+          ]
         },
         {
           period: '2017/10 ~ 2024/12',
@@ -403,8 +392,7 @@ window.RESUME = {
                 'Adopted Laravel to unify code style and improve maintainability'
               ]
             }
-          ],
-          tags: ['#PHP', '#Laravel', '#MySQL', '#Node.js', '#AWS']
+          ]
         },
         {
           period: '2015/9 ~ 2017/2',
@@ -421,8 +409,7 @@ window.RESUME = {
                 'Web development (HTML / CSS / JS) and databases (MySQL / Redis / MongoDB)'
               ]
             }
-          ],
-          tags: ['#Java', '#MySQL', '#JavaScript']
+          ]
         },
         {
           period: '2012/9 ~ 2015/3',
@@ -438,8 +425,7 @@ window.RESUME = {
                 'Customer technical support and failure analysis, with business trips to Korea and China'
               ]
             }
-          ],
-          tags: ['#LED', '#AutoCAD', '#SolidWorks']
+          ]
         }
       ]
     },
@@ -462,7 +448,6 @@ window.RESUME = {
               ]
             }
           ],
-          tags: ['#Laravel', '#RESTful', '#MySQL', '#Redis', '#HL7/FHIR'],
           links: []
         },
         {
@@ -471,30 +456,28 @@ window.RESUME = {
           role: 'Lead / Architecture / Team leadership',
           summary: 'Two core systems brought into live clinical use. Deployed on AWS ECS Fargate with auto scaling; integrated with optical microscopes, label printers and automated blood-tube preparation machines for a fully paperless clinic, cutting manpower needs by 30%.',
           sections: [],
-          tags: ['#ECS Fargate', '#IoT', '#Paperless'],
           links: [
             { label: 'e-stork.com.tw', url: 'https://www.e-stork.com.tw/' },
             { label: 'icryobank.com', url: 'https://icryobank.com/' },
             { label: 'jp.icryobank.com', url: 'https://jp.icryobank.com/' }
           ]
         }
-      ],
-      linksLabel: 'Related sites'
+      ]
     },
 
     skills: {
       groups: [
-        ['languages', ['PHP', 'Node.js', 'Python', 'Java']],
-        ['frameworks', ['Laravel', 'React']],
-        ['web', ['HTML', 'CSS', 'JavaScript']],
-        ['database', ['MySQL', 'MariaDB', 'MSSQL', 'Redis', 'MongoDB']],
-        ['aws', ['EC2', 'ECS Fargate', 'ECR', 'RDS', 'Route 53', 'CloudFront', 'WAF', 'Lambda', 'VPC']],
-        ['devops', ['Git', 'Jenkins', 'Docker', 'CI/CD', 'Linux', 'Zabbix', 'PRTG']],
-        ['ai', ['Claude Code', 'Codex', 'Claude Teams admin']],
-        ['saas', ['Google Workspace', 'ClickUp', 'LINE Bot', 'Google Apps Script']],
-        ['hardware', ['LED fabrication', 'IoT device integration', 'AutoCAD', 'SolidWorks']]
+        ['Languages', ['PHP', 'Node.js', 'Python', 'Java']],
+        ['Frameworks', ['Laravel', 'React']],
+        ['Web', ['HTML', 'CSS', 'JavaScript']],
+        ['Databases', ['MySQL', 'MariaDB', 'MSSQL', 'Redis', 'MongoDB']],
+        ['AWS', ['EC2', 'ECS Fargate', 'ECR', 'RDS', 'Route 53', 'CloudFront', 'WAF', 'Lambda', 'VPC']],
+        ['DevOps', ['Git', 'Jenkins', 'Docker', 'CI/CD', 'Linux', 'Zabbix', 'PRTG']],
+        ['AI tools', ['Claude Code', 'Codex', 'Claude Teams admin']],
+        ['SaaS & automation', ['Google Workspace', 'ClickUp', 'LINE Bot', 'Google Apps Script']],
+        ['Hardware', ['LED fabrication', 'IoT device integration', 'AutoCAD', 'SolidWorks']]
       ],
-      spokenKey: 'spoken',
+      spokenLabel: 'Languages spoken',
       spoken: [
         ['Mandarin', 'native'],
         ['English', 'intermediate'],
@@ -524,15 +507,11 @@ window.RESUME = {
     },
 
     contact: {
-      name: 'Allen Chang (張復)',
-      openTo: 'Backend Engineer',
-      location: 'Hsinchu, Taiwan',
-      preferredLocations: 'Hsinchu / Taichung / Taoyuan / Taipei / New Taipei',
-      availability: 'One month after offer',
-      keys: {
-        name: 'name', email: 'email', github: 'github', linkedin: 'linkedin',
-        openTo: 'open_to', location: 'location', preferredLocations: 'preferred_locations', availability: 'availability'
-      }
+      linkLabels: { email: 'Email', github: 'GitHub', linkedin: 'LinkedIn' },
+      rows: [
+        ['Preferred locations', 'Hsinchu / Taichung / Taoyuan / Taipei / New Taipei'],
+        ['Availability', 'One month after offer']
+      ]
     }
   }
 };

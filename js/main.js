@@ -24,7 +24,6 @@
   const state = {
     lang: initLang(),
     theme: initTheme(),
-    booted: false,
     history: [],
     histIdx: -1,
     draft: ''
@@ -44,159 +43,132 @@
   }
 
   const L = () => R[state.lang];
+  const fileOf = (section) => Object.keys(S.files).find((f) => S.files[f] === section) || '';
+  const stripProto = (u) => u.replace(/^https?:\/\/(www\.)?/, '');
 
-  const PROMPT = `<span class="prompt"><span class="p-user">${esc(S.handle)}</span><span class="p-sep">:</span><span class="p-path">${esc(S.path)}</span><span class="p-sym">$</span></span>`;
-
-  /* ---------------- tiny deterministic hash for fake commit ids ---------------- */
-  function fakeHash(str) {
-    let h = 0x811c9dc5;
-    for (let i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = Math.imul(h, 0x01000193) >>> 0;
-    }
-    return h.toString(16).padStart(8, '0').slice(0, 7);
-  }
-
-  /* ---------------- renderers ---------------- */
-  function block(id, cmd, inner, srTitle) {
+  /* ---------------- building blocks ---------------- */
+  function section(id, inner) {
     return `<section class="block" id="sec-${id}" data-section="${id}">
-      ${srTitle ? `<h2 class="sr-only">${esc(srTitle)}</h2>` : ''}
-      <div class="cmdline">${PROMPT} <span class="cmd">${esc(cmd)}</span></div>
+      <h2 class="sec-head">
+        <span class="sec-mark" aria-hidden="true">#</span>
+        <span class="sec-title">${esc(L().ui.sections[id])}</span>
+        <span class="sec-rule" aria-hidden="true"></span>
+        <span class="sec-file">${esc(fileOf(id))}</span>
+      </h2>
       <div class="out">${inner}</div>
     </section>`;
   }
 
-  function tags(list) {
-    if (!list || !list.length) return '';
-    return `<div class="tags">${list.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>`;
+  // rows: [[label, valueHTML]] — caller escapes values
+  function kv(rows) {
+    return `<dl class="kv">${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>`;
   }
 
-  function renderWhoami(d) {
-    const rows = d.whoami.rows.map(([k, v]) =>
-      `<div class="nf-row"><span class="nf-k">${esc(k)}</span><span class="nf-v">${esc(v)}</span></div>`).join('');
-    const inner = `<div class="neofetch">
-      <figure class="nf-avatar">
-        <img src="${esc(S.avatar)}" alt="${esc(d.whoami.name)}" width="360" height="360" loading="eager" decoding="async">
-        <figcaption>$ imgcat avatar.jpg</figcaption>
-      </figure>
-      <div class="nf-info">
-        <div class="nf-head">${esc(S.handle.split('@')[0])}<span class="at">@</span>${esc(S.handle.split('@')[1])}</div>
-        <div class="nf-rule">${'-'.repeat(S.handle.length)}</div>
-        <div class="nf-row"><span class="nf-k">Name</span><h1 class="nf-v nf-name">${esc(d.whoami.name)}</h1></div>
-        ${rows}
-        <div class="nf-tags">${tags(d.whoami.tags)}</div>
-        <div class="palette" aria-hidden="true"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span><span class="c5"></span><span class="c6"></span><span class="c7"></span><span class="c8"></span></div>
-      </div>
+  function group(heading, bullets) {
+    return `<div class="group">
+      ${heading ? `<div class="group-title">${esc(heading)}</div>` : ''}
+      <ul class="bullets">${bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
     </div>`;
-    return block('whoami', S.cmds.whoami, inner);
+  }
+
+  /* ---------------- renderers ---------------- */
+  function renderWhoami(d) {
+    const w = d.whoami;
+    return `<section class="block" id="sec-whoami" data-section="whoami">
+      <div class="cmdline"><span class="prompt" aria-hidden="true">❯</span> <span class="cmd">whoami</span></div>
+      <div class="out">
+        <div class="card">
+          <figure class="card-avatar">
+            <img src="${esc(S.avatar)}" alt="${esc(w.name)}" width="360" height="360" loading="eager" decoding="async">
+          </figure>
+          <div class="card-body">
+            <h1 class="card-name">${esc(w.name)}</h1>
+            <p class="card-title">${esc(w.title)}</p>
+            ${kv(w.rows.map(([k, v]) => [k, esc(v)]))}
+          </div>
+        </div>
+      </div>
+    </section>`;
   }
 
   function renderAbout(d) {
-    const items = d.about.highlights.map((h) => `<li>${esc(h)}</li>`).join('');
-    return block('about', S.cmds.about, `
-      <p>${esc(d.about.summary)}</p>
-      <div class="job-group">
-        <div class="group-title">${esc(d.about.highlightsHeading)}</div>
-        <ul class="bullets">${items}</ul>
-      </div>`, 'About');
+    return section('about', `
+      <p class="lead">${esc(d.about.summary)}</p>
+      ${group(d.about.highlightsHeading, d.about.highlights)}`);
   }
 
   function renderExperience(d) {
-    const items = d.experience.items.map((job, i) => {
-      const hash = fakeHash(job.company + job.period);
-      const refs = i === 0
-        ? `<span class="refs">(<span class="head">${esc(d.experience.current)}</span>)</span>` : '';
-      const groups = job.groups.map((g) => `
-        <div class="job-group">
-          ${g.heading ? `<div class="group-title">${esc(g.heading)}</div>` : ''}
-          <ul class="bullets">${g.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
-        </div>`).join('');
-      return `<article class="commit">
-        <div class="commit-head"><span class="star">*</span><span class="hash">${hash}</span>${refs}<span class="period">${esc(job.period)}</span></div>
-        <div class="commit-body">
-          <h3 class="job-title">${esc(job.title)}<span class="at">@</span><span class="company">${esc(job.company)}</span></h3>
-          <div class="job-meta">${esc(job.meta)}</div>
-          ${job.summary ? `<p class="job-summary">${esc(job.summary)}</p>` : ''}
-          ${groups}
-          ${tags(job.tags)}
+    const items = d.experience.items.map((job, i) => `
+      <li class="tl-item">
+        <div class="tl-head">
+          <span class="tl-node" aria-hidden="true"></span>
+          <span class="period">${esc(job.period)}</span>
+          ${i === 0 ? `<span class="badge">${esc(d.ui.currentBadge)}</span>` : ''}
         </div>
-      </article>`;
-    }).join('');
-    return block('experience', S.cmds.experience, `<div class="gitlog">${items}</div>`, 'Experience');
+        <div class="tl-body">
+          <h3 class="job-title">${esc(job.title)}<span class="at">@</span><span class="company">${esc(job.company)}</span></h3>
+          <div class="meta">${esc(job.meta)}</div>
+          ${job.summary ? `<p class="job-summary">${esc(job.summary)}</p>` : ''}
+          ${job.groups.map((g) => group(g.heading, g.bullets)).join('')}
+        </div>
+      </li>`).join('');
+    return section('experience', `<ol class="timeline">${items}</ol>`);
   }
 
   function renderProjects(d) {
     const items = d.projects.items.map((p) => {
-      const sections = p.sections.map((s) => `
-        <div class="job-group">
-          <div class="group-title">${esc(s.heading)}</div>
-          <ul class="bullets">${s.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
-        </div>`).join('');
       const links = p.links && p.links.length
-        ? `<div class="project-links"><span class="comment">// ${esc(d.projects.linksLabel)}:</span> ${p.links.map((l) =>
+        ? `<div class="project-links"><span class="dim">${esc(d.ui.linksLabel)}</span>${p.links.map((l) =>
           `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')}</div>`
         : '';
       return `<article class="project">
         <div class="project-head"><h3 class="project-name">${esc(p.name)}</h3><span class="period">${esc(p.period)}</span></div>
-        <div class="project-role">role: <b>${esc(p.role)}</b></div>
+        <div class="meta">${esc(d.ui.roleLabel)}<span class="sep">·</span>${esc(p.role)}</div>
         <p>${esc(p.summary)}</p>
-        ${sections}
-        ${tags(p.tags)}
+        ${p.sections.map((s) => group(s.heading, s.bullets)).join('')}
         ${links}
       </article>`;
     }).join('');
-    return block('projects', S.cmds.projects, items, 'Projects');
+    return section('projects', items);
   }
 
   function renderSkills(d) {
-    const rows = d.skills.groups.map(([k, arr]) =>
-      `<span class="row"><span class="k">${esc(k)}</span> <span class="br">[</span>${arr.map((v) =>
-        `<span class="v">${esc(v)}</span>`).join('<span class="sep">, </span>')}<span class="br">]</span></span>`).join('');
-    const spoken = `<span class="row"><span class="k">${esc(d.skills.spokenKey)}</span></span>` +
-      d.skills.spoken.map(([k, v]) =>
-        `<span class="row"><span class="sub-k">${esc(k)}</span> <span class="sub-v">${esc(v)}</span></span>`).join('');
-    return block('skills', S.cmds.skills, `<div class="yaml">${rows}${spoken}</div>`, 'Skills');
+    const row = (label, chips) => `<div class="skill-row">
+      <span class="skill-k">${esc(label)}</span>
+      <span class="chips">${chips.join('')}</span>
+    </div>`;
+    const rows = d.skills.groups.map(([k, arr]) => row(k, arr.map((v) => `<span class="chip">${esc(v)}</span>`)));
+    rows.push(row(d.skills.spokenLabel, d.skills.spoken.map(([l, lv]) =>
+      `<span class="chip chip-soft">${esc(l)}<span class="sep">·</span>${esc(lv)}</span>`)));
+    return section('skills', `<div class="skills">${rows.join('')}</div>`);
   }
 
   function renderEducation(d) {
     const e = d.education;
-    const certs = e.certs.map((c) =>
-      `<li>${esc(c.name)} <span class="by">— ${esc(c.by)}</span></li>`).join('');
-    return block('education', S.cmds.education, `
-      <div class="edu-line"><span class="school">${esc(e.school)}</span> · ${esc(e.dept)} · ${esc(e.degree)}</div>
-      <div class="edu-meta">${esc(e.period)}</div>
-      <div class="edu-certs">
-        <div class="group-title">${esc(e.certsHeading)}</div>
-        <ul class="bullets">${certs}</ul>
-      </div>`, 'Education');
+    const certs = e.certs.map((c) => `<li>${esc(c.name)}<span class="by">${esc(c.by)}</span></li>`).join('');
+    return section('education', `
+      <div class="edu-line"><span class="company">${esc(e.school)}</span><span class="sep">·</span>${esc(e.dept)}<span class="sep">·</span>${esc(e.degree)}</div>
+      <div class="meta">${esc(e.period)}</div>
+      <div class="group"><div class="group-title">${esc(e.certsHeading)}</div><ul class="bullets">${certs}</ul></div>`);
   }
 
   function renderWhyMe(d) {
     const colon = state.lang === 'zh' ? '：' : ': ';
     const items = d.whyme.bullets.map((b) =>
       `<li><b>${esc(b.title)}</b>${colon}${esc(b.text)}</li>`).join('');
-    return block('whyme', S.cmds.whyme, `<div class="whyme"><ul class="bullets">${items}</ul></div>`, 'Beyond work');
+    return section('whyme', `<ul class="bullets">${items}</ul>`);
   }
 
   function renderContact(d) {
     const c = d.contact;
-    const k = c.keys;
-    const linkedinDisplay = S.linkedin.replace(/^https?:\/\//, '');
-    const line = (key, valHtml, last) =>
-      `  <span class="k">"${esc(key)}"</span><span class="p">: </span>${valHtml}${last ? '' : '<span class="p">,</span>'}\n`;
-    const str = (v) => `<span class="s">"${esc(v)}"</span>`;
-    const link = (href, text) => `<a class="s" href="${esc(href)}" target="_blank" rel="noopener">"${esc(text)}"</a>`;
-    const body =
-      line(k.name, str(c.name)) +
-      line(k.email, `<a class="s" href="mailto:${esc(S.email)}">"${esc(S.email)}"</a>`) +
-      line(k.github, link(S.github, S.github.replace(/^https?:\/\//, ''))) +
-      line(k.linkedin, link(encodeURI(S.linkedin), linkedinDisplay)) +
-      line(k.openTo, str(c.openTo)) +
-      line(k.location, str(c.location)) +
-      line(k.preferredLocations, str(c.preferredLocations)) +
-      line(k.availability, str(c.availability), true);
-    return block('contact', S.cmds.contact,
-      `<pre class="json"><span class="p">{</span>\n${body}<span class="p">}</span></pre>`, 'Contact');
+    const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+    const rows = [
+      [c.linkLabels.email, `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>`],
+      [c.linkLabels.github, link(S.github, stripProto(S.github))],
+      [c.linkLabels.linkedin, link(encodeURI(S.linkedin), stripProto(S.linkedin))],
+      ...c.rows.map(([k, v]) => [k, esc(v)])
+    ];
+    return section('contact', kv(rows));
   }
 
   function renderAll() {
@@ -226,7 +198,6 @@
     input.setAttribute('aria-label', ui.inputLabel);
     $('#link-github').href = S.github;
     $('#link-linkedin').href = encodeURI(S.linkedin);
-    $('#foot-text').textContent = ui.footer;
     $('#foot-source').textContent = ui.source;
     $('#foot-year').textContent = String(new Date().getFullYear());
   }
@@ -260,7 +231,6 @@
 
     if (reduce || !blocks.length) {
       blocks.forEach((b) => b.classList.add('show'));
-      state.booted = true;
       return;
     }
 
@@ -286,7 +256,6 @@
       outEl.hidden = false;
       first.classList.remove('typing');
       blocks.forEach((b) => { b.classList.remove('pending'); b.classList.add('show'); });
-      state.booted = true;
       window.removeEventListener('keydown', onSkip, true);
       window.removeEventListener('pointerdown', onSkip, true);
     };
@@ -332,21 +301,18 @@
     while (el.children.length > MAX_LOG) el.removeChild(el.firstChild);
   }
   function logCmd(line) {
-    const el = logEl();
-    el.insertAdjacentHTML('beforeend',
-      `<div class="log-cmd"><span class="log-prompt">$</span>${esc(line)}</div>`);
+    logEl().insertAdjacentHTML('beforeend',
+      `<div class="log-cmd"><span class="log-prompt">❯</span>${esc(line)}</div>`);
     trimLog();
   }
   function logOut(text, cls) {
     if (!text) return;
-    const el = logEl();
-    el.insertAdjacentHTML('beforeend',
+    logEl().insertAdjacentHTML('beforeend',
       `<div class="log-out${cls ? ' ' + cls : ''}">${esc(text)}</div>`);
     trimLog();
   }
   function logHTML(html) {
-    const el = logEl();
-    el.insertAdjacentHTML('beforeend', `<div class="log-out">${html}</div>`);
+    logEl().insertAdjacentHTML('beforeend', `<div class="log-out">${html}</div>`);
     trimLog();
   }
   function clearLog() { logEl().innerHTML = ''; }
@@ -356,26 +322,21 @@
     if (!el) return false;
     el.classList.remove('flash');
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // restart the flash animation
-    void el.offsetWidth;
+    void el.offsetWidth; // restart the flash animation
     el.classList.add('flash');
     setTimeout(() => el.classList.remove('flash'), 1500);
     return true;
   }
 
-  const fileOf = (section) => Object.keys(S.files).find((f) => S.files[f] === section) || section;
-
-  function open(section) {
-    const ui = L().ui;
-    if (goto(section)) logOut(fmt(ui.opening, { file: fileOf(section) }), 'ok');
+  function open(sectionId) {
+    if (goto(sectionId)) logOut(fmt(L().ui.opening, { file: fileOf(sectionId) || sectionId }), 'ok');
   }
 
   const COMMANDS = {
     help() {
       const ui = L().ui;
-      const rows = ui.help.map(([c, d]) =>
-        `<span class="hk">${esc(c)}</span> ${esc(d)}`).join('\n');
-      logHTML(`${esc(ui.helpIntro)}\n${rows}\n<span class="comment">${esc(ui.hint)}</span>`);
+      const rows = ui.help.map(([c, d]) => `<span class="hk">${esc(c)}</span> ${esc(d)}`).join('\n');
+      logHTML(`${esc(ui.helpIntro)}\n${rows}\n<span class="dim">${esc(ui.hint)}</span>`);
     },
     about() { open('about'); },
     exp() { open('experience'); },
@@ -399,9 +360,9 @@
       const ui = L().ui;
       if (!args.length) { logOut(ui.catUsage, 'err'); return; }
       const file = args[0].replace(/^\.\//, '');
-      const section = S.files[file];
-      if (!section) { logOut(fmt(ui.noFile, { file }), 'err'); return; }
-      open(section);
+      const sectionId = S.files[file];
+      if (!sectionId) { logOut(fmt(ui.noFile, { file }), 'err'); return; }
+      open(sectionId);
     },
     lang(args) {
       const target = args[0] && LANGS.includes(args[0].toLowerCase())
@@ -452,8 +413,6 @@
     const args = parts.slice(1);
     const fn = COMMANDS[cmd];
     if (fn) { fn(args); return; }
-
-    // "about.md" style shortcut: treat a bare filename as cat
     if (S.files[cmd]) { COMMANDS.cat([cmd]); return; }
     logOut(fmt(L().ui.notFound, { cmd }), 'err');
   }
@@ -528,7 +487,7 @@
       input.focus({ preventScroll: true });
     });
 
-    // Click on empty terminal area focuses the prompt (but never steals a text selection or a link click)
+    // Click on empty terminal area focuses the prompt (never steals a selection or a link click)
     screen.addEventListener('click', (e) => {
       if (e.target.closest('a, button, input, label, select, textarea')) return;
       const sel = window.getSelection && window.getSelection();
