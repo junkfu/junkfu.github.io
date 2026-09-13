@@ -65,14 +65,14 @@ window.RESUME = {
       langSet: '語言已切換為繁體中文',
       themeSet: '配色已切換為 {theme}',
       themeUnknown: '沒有這個配色：{theme}。可用：dark, light, dracula',
-      sudo: 'allen 不在 sudoers 名單中。此事件將被回報 🙂',
+      sudo: 'fu 不在 sudoers 名單中。此事件將被回報 🙂',
       exit: '感謝造訪！這是靜態網頁，沒有出口 👋',
       top: '→ 回到最上方',
       noHistory: '（尚無歷史指令）'
     },
 
     whoami: {
-      name: '張復 Allen Chang',
+      name: '張復 Fu Chang',
       title: '資訊部經理 @ 愛生育生物科技 · 帶領 13+ 人軟硬體團隊',
       rows: [
         ['求職目標', '後端工程師 / Backend Engineer'],
@@ -312,14 +312,14 @@ window.RESUME = {
       langSet: 'Language switched to English',
       themeSet: 'Theme switched to {theme}',
       themeUnknown: 'Unknown theme: {theme}. Available: dark, light, dracula',
-      sudo: 'allen is not in the sudoers file. This incident will be reported 🙂',
+      sudo: 'fu is not in the sudoers file. This incident will be reported 🙂',
       exit: "Thanks for visiting! It's a static page, there is no exit 👋",
       top: '→ back to top',
       noHistory: '(no history yet)'
     },
 
     whoami: {
-      name: 'Allen Chang (張復)',
+      name: 'Fu Chang (張復)',
       title: 'IT Manager @ BIOLOVE Biotechnology · leads a 13+ person software & hardware team',
       rows: [
         ['Open to', 'Backend Engineer'],

@@ -388,7 +388,7 @@
     cls() { clearLog(); },
     sudo() { logOut(L().ui.sudo, 'err'); },
     echo(args) { logOut(args.join(' ')); },
-    pwd() { logOut('/home/allen/resume'); },
+    pwd() { logOut('/home/fu/resume'); },
     date() { logOut(new Date().toString()); },
     history() {
       const ui = L().ui;

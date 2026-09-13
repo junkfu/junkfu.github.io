@@ -1,6 +1,6 @@
 # resume
 
-張復 Allen Chang 的終端機風格個人履歷網站。純 HTML / CSS / JS，沒有 build step，直接由 GitHub Pages 提供。
+張復 Fu Chang 的終端機風格個人履歷網站。純 HTML / CSS / JS，沒有 build step，直接由 GitHub Pages 提供。
 
 **網址：** https://junkfu.github.io/resume/
 
