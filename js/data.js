@@ -260,7 +260,7 @@ window.RESUME = {
     },
 
     contact: {
-      linkLabels: { email: 'Email', github: 'GitHub', linkedin: 'LinkedIn' },
+      linkLabels: { email: 'Email', linkedin: 'LinkedIn' },
       rows: [
         ['可配合地點', '新竹 / 台中 / 桃園 / 台北 / 新北'],
         ['可上班日', '錄取後一個月']
@@ -507,7 +507,7 @@ window.RESUME = {
     },
 
     contact: {
-      linkLabels: { email: 'Email', github: 'GitHub', linkedin: 'LinkedIn' },
+      linkLabels: { email: 'Email', linkedin: 'LinkedIn' },
       rows: [
         ['Preferred locations', 'Hsinchu / Taichung / Taoyuan / Taipei / New Taipei'],
         ['Availability', 'One month after offer']
