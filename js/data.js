@@ -8,7 +8,7 @@ window.RESUME = {
     github: 'https://github.com/junkfu',
     linkedin: 'https://www.linkedin.com/in/復-張-43a365205',
     avatar: 'assets/avatar.jpg',
-    siteUrl: 'https://junkfu.github.io/',
+    siteUrl: 'https://junkfu.github.io/resume/',
     // 指令列 ls / cat 使用的檔名 → 對應區塊
     files: {
       'about.md': 'about',
