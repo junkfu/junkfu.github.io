@@ -77,9 +77,9 @@ window.RESUME = {
       rows: [
         ['求職目標', '後端工程師 / Backend Engineer'],
         ['地點', '新竹, Taiwan'],
-        ['年資', '9+ 年：LED 硬體研發 → 軟體開發 → 資訊部主管'],
+        ['年資', '10+ 年：LED 硬體研發 → 軟體開發 → 資訊部主管'],
         ['學歷', '國立中興大學 電機工程學系'],
-        ['技術', 'PHP / Laravel · Node.js · Python · React · MySQL · AWS · Docker · Claude Code']
+        ['技術', 'AWS · Claude code · Codex · PHP / Laravel · Node.js · Python · React · MySQL · Docker · Git']
       ]
     },
 
@@ -324,9 +324,9 @@ window.RESUME = {
       rows: [
         ['Open to', 'Backend Engineer'],
         ['Location', 'Hsinchu, Taiwan'],
-        ['Experience', '9+ years: LED hardware R&D → software development → head of IT'],
+        ['Experience', '10+ years: LED hardware R&D → software development → head of IT'],
         ['Education', 'B.S. Electrical Engineering, National Chung Hsing University'],
-        ['Stack', 'PHP / Laravel · Node.js · Python · React · MySQL · AWS · Docker · Claude Code']
+        ['Stack', 'AWS · Claude code · Codex · PHP / Laravel · Node.js · Python · React · MySQL · Docker · Git']
       ]
     },
 
