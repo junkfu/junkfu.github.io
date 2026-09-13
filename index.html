@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>張復 Allen Chang｜Backend Engineer / IT Manager</title>
+  <meta name="description" content="張復 Allen Chang 的個人履歷。橫跨硬體與軟體的 IT 主管，專長 PHP/Laravel、Node.js、AWS 雲端架構、醫療資訊系統與 AI 輔助開發。">
+  <meta name="author" content="Allen Chang">
+  <meta name="theme-color" content="#0b0f14">
+  <link rel="canonical" href="https://junkfu.github.io/">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="張復 Allen Chang｜Backend Engineer / IT Manager">
+  <meta property="og:description" content="橫跨硬體與軟體的 IT 主管。PHP/Laravel · Node.js · AWS · 醫療資訊系統 · AI 輔助開發。">
+  <meta property="og:url" content="https://junkfu.github.io/">
+  <meta property="og:image" content="https://junkfu.github.io/assets/avatar.jpg">
+  <meta name="twitter:card" content="summary">
+
+  <script>
+    /* 在樣式載入前就套用已儲存的配色，避免閃爍 */
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dracula' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="term" id="term">
+    <header class="titlebar">
+      <div class="dots" aria-hidden="true">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="title"><span class="title-user">allen@junkfu</span>: ~/resume — zsh</div>
+      <div class="actions">
+        <button type="button" class="lang-toggle" id="lang-toggle" title="Switch to English" aria-label="Switch language">EN</button>
+      </div>
+    </header>
+
+    <main class="screen" id="screen">
+      <div id="output" class="output" aria-live="off"></div>
+
+      <noscript>
+        <div class="noscript">
+          <p>此頁面需要 JavaScript。聯絡方式：<a href="mailto:junkfood1106@gmail.com">junkfood1106@gmail.com</a> · <a href="https://github.com/junkfu">github.com/junkfu</a></p>
+          <p>This page needs JavaScript. Contact: <a href="mailto:junkfood1106@gmail.com">junkfood1106@gmail.com</a> · <a href="https://github.com/junkfu">github.com/junkfu</a></p>
+        </div>
+      </noscript>
+
+      <form class="cli" id="cli" autocomplete="off">
+        <div class="cli-log" id="cli-log" aria-live="polite"></div>
+        <label class="cli-row" for="cli-input">
+          <span class="prompt"><span class="p-user">allen@junkfu</span><span class="p-sep">:</span><span class="p-path">~/resume</span><span class="p-sym">$</span></span>
+          <input id="cli-input" class="cli-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="終端機指令輸入" placeholder="輸入 help 查看可用指令…">
+        </label>
+      </form>
+    </main>
+  </div>
+
+  <footer class="foot">
+    <span id="foot-text">以純 HTML / CSS / JS 打造 · 部署於 GitHub Pages</span>
+    · <a href="https://github.com/junkfu/junkfu.github.io" id="foot-source" rel="noopener">原始碼</a>
+    · © <span id="foot-year">2026</span> Allen Chang
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
