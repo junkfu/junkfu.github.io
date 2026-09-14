@@ -77,14 +77,14 @@ window.RESUME = {
       rows: [
         ['求職目標', '後端工程師 / Backend Engineer'],
         ['地點', '新竹, Taiwan'],
-        ['年資', '10+ 年：LED 硬體研發 → 軟體開發 → 資訊部主管'],
+        ['年資', '10+ 年：LED 研發 → 軟體開發 → 資訊部主管'],
         ['學歷', '國立中興大學 電機工程學系'],
         ['技術', 'AWS · Claude code · Codex · PHP / Laravel · Node.js · Python · React · MySQL · Docker · Git']
       ]
     },
 
     about: {
-      summary: '橫跨硬體與軟體的 IT 主管，從工程師一路帶到 20 人的資訊團隊。把落後業界多年的醫療資訊系統，重建為軟體公司水準的現代化架構，並帶領全團隊導入 AI 輔助開發。',
+      summary: '橫跨硬體與軟體的 IT 主管，從工程師一路帶到 20 人的資訊團隊。把落後業界多年的醫療資訊系統，重建為軟體公司水準的現代化架構，並帶領全團隊導入 AI 輔助開發。也曾單車橫跨歐亞大陸，花半年從北京騎到巴黎：獨自規劃與面對未知挑戰，恆毅力高，喜歡探索未知。',
       highlightsHeading: '關鍵成果',
       highlights: [
         '建立完整開發制度：Git、Jenkins CI/CD、Docker，系統從地端上雲 AWS',
@@ -252,9 +252,8 @@ window.RESUME = {
 
     whyme: {
       bullets: [
-        { title: '策略與沉穩', text: '圍棋業餘五段，曾代表中興大學出賽' },
+        { title: '策略與沉穩', text: '圍棋業餘五段，曾代表中興大學、新竹高中出賽' },
         { title: '團隊與目標感', text: '大學籃球系隊主力，全校冠軍、全國第四' },
-        { title: '規劃力與毅力', text: '半年單車從北京騎到巴黎，全程獨立規劃與風險管理' },
         { title: '利他', text: '陪伴自閉症兒童、為偏鄉國小辦營隊' }
       ]
     },
@@ -324,14 +323,14 @@ window.RESUME = {
       rows: [
         ['Open to', 'Backend Engineer'],
         ['Location', 'Hsinchu, Taiwan'],
-        ['Experience', '10+ years: LED hardware R&D → software development → head of IT'],
+        ['Experience', '10+ years: LED R&D → software development → head of IT'],
         ['Education', 'B.S. Electrical Engineering, National Chung Hsing University'],
         ['Stack', 'AWS · Claude code · Codex · PHP / Laravel · Node.js · Python · React · MySQL · Docker · Git']
       ]
     },
 
     about: {
-      summary: 'An IT manager equally at home with hardware and software, I grew from engineer to leading a 20-person IT team. I rebuilt a medical information system that was years behind the industry into a modern, software-company-grade architecture and rolled out AI-assisted development across the whole team.',
+      summary: 'An IT manager equally at home with hardware and software, I grew from engineer to leading a 20-person IT team. I rebuilt a medical information system that was years behind the industry into a modern, software-company-grade architecture and rolled out AI-assisted development across the whole team. I also cycled across Eurasia, from Beijing to Paris in six months: planning the route myself and facing unknown challenges. I have a lot of grit, and I like exploring the unknown.',
       highlightsHeading: 'Key results',
       highlights: [
         'Built the development practice from scratch: Git, Jenkins CI/CD, Docker, and migration from on-premises to AWS',
@@ -499,9 +498,8 @@ window.RESUME = {
 
     whyme: {
       bullets: [
-        { title: 'Strategic and composed', text: 'Amateur 5-dan Go player; competed for National Chung Hsing University' },
+        { title: 'Strategic and composed', text: 'Amateur 5-dan Go player; competed for National Chung Hsing University and Hsinchu High School' },
         { title: 'Team player', text: 'Starter on the university basketball team; campus champions, 4th nationally' },
-        { title: 'Planning and grit', text: 'Cycled from Beijing to Paris in six months, self-planned with full risk management' },
         { title: 'Giving back', text: 'Mentored children with autism; ran summer camps for rural elementary schools' }
       ]
     },

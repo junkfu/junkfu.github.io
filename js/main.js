@@ -164,7 +164,6 @@
     const link = (href, text) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(text)}</a>`;
     const rows = [
       [c.linkLabels.email, `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>`],
-      [c.linkLabels.github, link(S.github, stripProto(S.github))],
       [c.linkLabels.linkedin, link(encodeURI(S.linkedin), stripProto(S.linkedin))],
       ...c.rows.map(([k, v]) => [k, esc(v)])
     ];
